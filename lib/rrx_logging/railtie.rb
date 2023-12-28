@@ -1,8 +1,10 @@
 require_relative './logger'
 require_relative './middleware'
-require 'railtie'
+require_relative './current'
+require 'rails/railtie'
+require 'rrx_config'
 
-module RRXLogging
+module RrxLogging
   class Railtie < Rails::Railtie
     GEM_FILTERS = %w[active action rack rspec railtie].freeze
 
@@ -19,10 +21,14 @@ module RRXLogging
       'healthcheck'
     ]
 
-    initializer 'didja_rails.logging', before: :initialize_logger do |app|
+    initializer(
+      'rrx.logging',
+      after: :initialize_logger,
+      before: %w[action_controller.set_configs active_record.logger active_job.logger]
+    ) do |app|
       init_rails app.config,
                  # Verbose when local or deployed to development environment
-                 DidjaRails.env.development? ? :debug : :info,
+                 RrxConfig.env.development? ? :debug : :info,
                  # JSON when deployed, text when local
                  mode: Rails.env.production? ? :json : :text
     end
@@ -30,9 +36,9 @@ module RRXLogging
     protected
 
     def init_rails(config, default_level = :info, mode: :json)
-      config.logger    = RRXApi::Logging::Logger.new(mode)
+      Rails.logger     = RrxLogging::Logger.new(mode)
       config.log_level = ENV.fetch('LOG_LEVEL') { default_level }
-      config.middleware.insert Rails::Rack::Logger, Logging::Middleware
+      config.middleware.insert Rails::Rack::Logger, RrxLogging::Middleware
       config.colorize_logging = !Rails.env.production?
 
       init_backtrace_cleaner
@@ -77,3 +83,4 @@ module RRXLogging
     end
   end
 end
+

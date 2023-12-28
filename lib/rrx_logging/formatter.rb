@@ -1,4 +1,4 @@
-module RRXLogging
+module RrxLogging
   class Formatter
     MAX_MESSAGE_LENGTH = 2000
 

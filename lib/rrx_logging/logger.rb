@@ -2,11 +2,11 @@ require 'active_support/logger'
 require 'rails/rack/logger'
 require_relative './formatter'
 
-module RRXLogging
+module RrxLogging
   class Logger < ActiveSupport::Logger
     def initialize(mode = :json, name: nil, tags: nil, progname: nil)
       super($stdout, progname: name || progname)
-      self.formatter = Logging::Formatter.new(mode, tags:)
+      self.formatter = Formatter.new(mode, tags:)
       @silencers     = []
       @filters       = []
     end

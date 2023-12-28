@@ -1,7 +1,7 @@
 require_relative './logger'
 require 'action_dispatch/http/request'
 
-module RRXLogging
+module RrxLogging
   # Replacement for default Rack logger to add pre-defined
   # named tags instead of the default tag array
   class Middleware
