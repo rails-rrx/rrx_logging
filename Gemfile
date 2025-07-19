@@ -3,4 +3,5 @@
 source "https://rubygems.org"
 gemspec
 
-gem 'rrx_dev', path: '../rrx_dev'
+require 'pathname'
+gem 'rrx_dev', path: '../rrx_dev' if Pathname(__FILE__).join('../../rrx_dev').exist?

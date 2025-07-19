@@ -34,10 +34,10 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'activesupport'
-  spec.add_dependency 'railties'
-  spec.add_dependency 'rrx_config'
-  spec.add_development_dependency 'rrx_dev'
+  spec.add_dependency 'activesupport', RrxLogging::DEPENDENCY_VERSION
+  spec.add_dependency 'railties', RrxLogging::DEPENDENCY_VERSION
+  spec.add_dependency 'rrx_config', RrxLogging::DEPENDENCY_VERSION
+  spec.add_development_dependency 'rrx_dev', RrxLogging::DEPENDENCY_VERSION
   spec.add_development_dependency 'sqlite3'
 
   # For more information and examples about making a new gem, check out our
